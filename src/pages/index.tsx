@@ -15,7 +15,6 @@ import styles from "src/styles/Home.module.css"
 const UserInfo = () => {
   const currentUser = useCurrentUser()
   const [logoutMutation] = useMutation(logout)
-
   if (currentUser) {
     return (
       <>
@@ -73,13 +72,11 @@ const Home: BlitzPage = () => {
 
               <h1>Your database & authentication is ready. Try it by signing up.</h1>
 
-              {/* Auth */}
-
-              <div className={styles.buttonContainer}>
+              {/* <div className={styles.buttonContainer}>
                 <Suspense fallback="Loading...">
                   <UserInfo />
                 </Suspense>
-              </div>
+              </div> */}
             </div>
 
             <div className={styles.body}>
@@ -125,7 +122,7 @@ const Home: BlitzPage = () => {
                 </div>
               </div>
               {/* Links */}
-              <div className={styles.linkGrid}>
+              {/* <div className={styles.linkGrid}>
                 <a
                   href="https://blitzjs.com/docs/getting-started?utm_source=blitz-new&utm_medium=app-template&utm_campaign=blitz-new"
                   target="_blank"
@@ -171,7 +168,7 @@ const Home: BlitzPage = () => {
                   Discord Community
                   <span className={styles.arrowIcon} />
                 </a>
-              </div>
+              </div> */}
             </div>
           </div>
         </main>

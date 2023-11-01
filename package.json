@@ -2,14 +2,15 @@
   "name": "birthdayapp",
   "version": "1.0.0",
   "scripts": {
-    "dev": "blitz dev",
+    "dev": "source $HOME/.nvm/nvm.sh; nvm use; blitz dev",
     "build": "blitz build",
     "start": "blitz start",
     "studio": "blitz prisma studio",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
     "test": "vitest run --passWithNoTests",
     "test:watch": "vitest",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "prisma:migrate": "blitz prisma migrate reset & blitz prisma migrate dev & blitz db seed"
   },
   "prisma": {
     "schema": "db/schema.prisma"
@@ -29,7 +30,7 @@
     "@blitzjs/rpc": "2.0.0-beta.35",
     "@prisma/client": "4.6.0",
     "blitz": "2.0.0-beta.35",
-    "next": "13.1",
+    "next": "13.5.4",
     "prisma": "4.6.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
