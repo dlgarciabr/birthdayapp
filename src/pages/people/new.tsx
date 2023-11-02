@@ -34,7 +34,7 @@ const NewPersonPage = () => {
           name: '',
           surname: '',
           countryId: '-1',
-          birthdate: new Date()
+          birthdate: new Date().toLocaleDateString('en-US')
         }}
         countries={countries}
         onSubmit={async (values) => {

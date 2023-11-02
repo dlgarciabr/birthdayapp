@@ -25,6 +25,7 @@ export function PersonForm<S extends z.ZodType<any, any>>(props: FormProps<S> & 
         name='birthdate'
         label='Birthdate'
         placeholder='Birthdate'
+        type="date"
       />
       <LabeledSelect 
         name="countryId" 
