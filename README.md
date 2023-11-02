@@ -8,6 +8,8 @@ This is a [Blitz.js](https://github.com/blitz-js/blitz) app.
 
 Run your app in the development mode.
 
+You need Node version 18.15.0
+
 ```
 blitz dev
 ```

@@ -1,46 +1,51 @@
-import { forwardRef, ComponentPropsWithoutRef, PropsWithoutRef } from "react"
-import { useField, UseFieldConfig } from "react-final-form"
+import { forwardRef, PropsWithoutRef } from 'react';
+import { useField, useFormikContext, ErrorMessage } from 'formik';
+import { Box, TextField } from '@mui/material';
 
-export interface LabeledTextFieldProps extends PropsWithoutRef<JSX.IntrinsicElements["input"]> {
-  /** Field name. */
-  name: string
-  /** Field label. */
-  label: string
-  /** Field type. Doesn't include radio buttons and checkboxes */
-  type?: "text" | "password" | "email" | "number"
-  outerProps?: PropsWithoutRef<JSX.IntrinsicElements["div"]>
-  labelProps?: ComponentPropsWithoutRef<"label">
-  fieldProps?: UseFieldConfig<string>
+export interface LabeledTextFieldProps extends PropsWithoutRef<JSX.IntrinsicElements['input']> {
+  name: string;
+  label: string;
+  rows?: number;
+  fullWidth?: boolean;
+  multiline?: boolean;
+  counter?: boolean;
+  type?: 'text' | 'password' | 'email' | 'number';
+  helperText?: string;
+  outerProps?: PropsWithoutRef<JSX.IntrinsicElements['div']>;
 }
 
 export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldProps>(
-  ({ name, label, outerProps, fieldProps, labelProps, ...props }, ref) => {
-    const {
-      input,
-      meta: { touched, error, submitError, submitting },
-    } = useField(name, {
-      parse:
-        props.type === "number"
-          ? (Number as any)
-          : // Converting `""` to `null` ensures empty values will be set to null in the DB
-            (v) => (v === "" ? null : v),
-      ...fieldProps,
-    })
-
-    const normalizedError = Array.isArray(error) ? error.join(", ") : error || submitError
-
+  ({ name, label, rows, outerProps, helperText, counter = false, ...props }, ref) => {
+    const [input] = useField(name);
+    const { isSubmitting } = useFormikContext();
     return (
       <div {...outerProps}>
-        <label {...labelProps}>
-          {label}
-          <input {...input} disabled={submitting} {...props} ref={ref} />
-        </label>
+        <TextField
+          {...props}
+          label={label}
+          {...input}
+          rows={rows}
+          multiline={!!rows}
+          variant='outlined'
+          color='primary'
+          size='medium'
+          disabled={isSubmitting}
+          ref={ref}
+          helperText={
+            <Box component='span' sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span>{helperText}</span>
+              {counter && <span>{`${(input.value as string).length} / ${props.maxLength}`}</span>}
+            </Box>
+          }
+        />
 
-        {touched && normalizedError && (
-          <div role="alert" style={{ color: "red" }}>
-            {normalizedError}
-          </div>
-        )}
+        <ErrorMessage name={name}>
+          {(msg) => (
+            <div role='alert' style={{ color: 'red' }}>
+              {msg}
+            </div>
+          )}
+        </ErrorMessage>
 
         <style jsx>{`
           label {
@@ -59,8 +64,8 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
           }
         `}</style>
       </div>
-    )
+    );
   }
-)
+);
 
-export default LabeledTextField
+export default LabeledTextField;

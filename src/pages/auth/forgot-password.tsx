@@ -1,5 +1,5 @@
 import Layout from "src/core/layouts/Layout"
-import { LabeledTextField } from "src/core/components/LabeledTextField"
+import { LabeledTextField } from "src/core/components/LabeledTextFieldOld"
 import { Form, FORM_ERROR } from "src/core/components/Form"
 import { ForgotPassword } from "src/auth/validations"
 import forgotPassword from "src/auth/mutations/forgotPassword"
