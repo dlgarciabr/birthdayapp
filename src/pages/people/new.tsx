@@ -29,9 +29,6 @@ const NewPersonPage = () => {
 
       <PersonForm
         submitText="Create Person"
-        // TODO use a zod schema for form validation
-        //  - Tip: extract mutation's schema into a shared `validations.ts` file and
-        //         then import and use it here
         schema={CreatePerson}
         initialValues={{
           name: '',
@@ -45,7 +42,6 @@ const NewPersonPage = () => {
             const person = await createPersonMutation(values);
             await router.push(Routes.ShowPersonPage({ personId: person.id }));
           } catch (error: any) {
-            console.error(error);
             return {
               [FORM_ERROR]: error.toString(),
             };

@@ -6,6 +6,7 @@ import { usePaginatedQuery } from "@blitzjs/rpc";
 import { useRouter } from "next/router";
 import Layout from "src/core/layouts/Layout";
 import getPeople from "src/people/queries/getPeople";
+import { DataGrid, GridColDef, GridRowsProp } from '@mui/x-data-grid';
 
 const ITEMS_PER_PAGE = 100;
 
@@ -21,24 +22,22 @@ export const PeopleList = () => {
   const goToPreviousPage = () => router.push({ query: { page: page - 1 } });
   const goToNextPage = () => router.push({ query: { page: page + 1 } });
 
-  return (
-    <div>
-      <ul>
-        {people.map((person) => (
-          <li key={person.id}>
-            <Link href={Routes.ShowPersonPage({ personId: person.id })}>
-              {person.name}
-            </Link>
-          </li>
-        ))}
-      </ul>
+  const columns: GridColDef[] = [
+    { field: 'name', headerName: 'Name', width: 150 },
+    { field: 'country', headerName: 'Country', width: 150 },
+    { field: 'birthday', headerName: 'Birthday', width: 150 },
+  ];
 
-      <button disabled={page === 0} onClick={goToPreviousPage}>
-        Previous
-      </button>
-      <button disabled={!hasMore} onClick={goToNextPage}>
-        Next
-      </button>
+  const rows: GridRowsProp = people.map(person =>({
+    id: person.id, 
+    name: person.name, 
+    country: person.country.name, 
+    birthday: new Date(person.birthdate).toLocaleDateString('en-US', { year:'numeric' , month: '2-digit', day: '2-digit'}),
+  }));
+
+  return (
+    <div style={{ height: 300, width: '100%' }}>
+      <DataGrid rows={rows} columns={columns} />
     </div>
   );
 };

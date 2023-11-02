@@ -22,7 +22,14 @@ export default resolver.pipe(
       take,
       count: () => db.person.count({ where }),
       query: (paginateArgs) =>
-        db.person.findMany({ ...paginateArgs, where, orderBy }),
+        db.person.findMany({ 
+          ...paginateArgs, 
+          where, 
+          orderBy,
+          include: {
+            country: true
+          }
+        }),
     });
 
     return {
