@@ -34,13 +34,13 @@ const NewPersonPage = () => {
           name: '',
           surname: '',
           countryId: '-1',
-          birthdate: new Date().toLocaleDateString('en-US')
+          birthdate: new Date()
         }}
         countries={countries}
         onSubmit={async (values) => {
           try {
-            const person = await createPersonMutation(values);
-            await router.push(Routes.ShowPersonPage({ personId: person.id }));
+            await createPersonMutation(values);
+            await router.push(Routes.PeoplePage());
           } catch (error: any) {
             return {
               [FORM_ERROR]: error.toString(),

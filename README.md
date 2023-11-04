@@ -1,14 +1,18 @@
-[![Blitz.js](https://raw.githubusercontent.com/blitz-js/art/master/github-cover-photo.png)](https://blitzjs.com)
-
-This is a [Blitz.js](https://github.com/blitz-js/blitz) app.
-
-# ****name****
+# ****Birthday App****
 
 ## Getting Started
 
-Run your app in the development mode.
+This project was built using [Blitz.js](https://github.com/blitz-js/blitz).
 
-You need Node version 18.15.0
+
+This project depends on Node version 18.15.0.
+
+
+To run your app in the development mode:
+
+```
+npm install
+```
 
 ```
 blitz dev

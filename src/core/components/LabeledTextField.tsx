@@ -17,7 +17,7 @@ export interface LabeledTextFieldProps extends PropsWithoutRef<JSX.IntrinsicElem
 
 export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldProps>(
   ({ name, label, rows, outerProps, helperText, counter = false, type, ...props }, ref) => {
-    const [input] = useField(name);
+    const [input, _meta, helper] = useField(name);
     const { isSubmitting } = useFormikContext();
     return (
       <div {...outerProps}>
@@ -26,6 +26,11 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
             label={label}
             disabled={isSubmitting}
             ref={ref}
+            onChange={
+              async value => {
+                await helper.setValue(value);
+              }
+            }
           /> : 
           <TextField
             {...props}
