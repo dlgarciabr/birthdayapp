@@ -9,7 +9,8 @@ import us from 'date-fns/locale/en-US';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LoginForm from "src/auth/components/LoginForm"
-import { ToastType, showToast } from "src/core/components/Toast"
+import { ToastType, showToast } from "src/core/components/Toast";
+import { appWithTranslation } from 'next-i18next';
 
 function RootErrorFallback({ error,resetErrorBoundary }: ErrorFallbackProps) {
   if (error instanceof AuthenticationError) {
@@ -33,7 +34,7 @@ function RootErrorFallback({ error,resetErrorBoundary }: ErrorFallbackProps) {
 }
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const getLayout = Component.getLayout || ((page) => page)
+  const getLayout = Component.getLayout || ((page) => page);
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={us}>
       <ErrorBoundary FallbackComponent={RootErrorFallback}>
@@ -44,4 +45,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   )
 }
 
-export default withBlitz(MyApp)
+export default appWithTranslation(withBlitz(MyApp))

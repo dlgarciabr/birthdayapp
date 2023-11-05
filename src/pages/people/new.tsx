@@ -13,6 +13,8 @@ import { ToastType, showToast } from "src/core/components/Toast";
 import { formatMessage } from "./uitls";
 import { CreatePersonValidation } from "src/people/schemas";
 import { Button, Grid } from "@mui/material";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const NewPersonPage = () => {
   const router = useRouter();
@@ -27,10 +29,12 @@ const NewPersonPage = () => {
   };
 
   useEffect(() => void loadCountries(), []);
+  
+  const { t } = useTranslation();
 
   return (
     <Layout title={"Create New Person"}>
-      <h1>Create New Person</h1>
+      <h1>{t('people.form.label')}</h1>
       <Grid container justifyContent='center' spacing={2}>
         <Grid item xs={7}>
           <PersonForm
@@ -72,3 +76,15 @@ const NewPersonPage = () => {
 NewPersonPage.authenticate = true;
 
 export default NewPersonPage;
+
+export async function getStaticProps(context) {
+  // extract the locale identifier from the URL
+  const { locale } = context
+
+  return {
+    props: {
+      // pass the translation props to the page component
+      ...(await serverSideTranslations(locale)),
+    },
+  }
+}
