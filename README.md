@@ -8,14 +8,24 @@ This project was built using [Blitz.js](https://github.com/blitz-js/blitz).
 This project depends on Node version 18.15.0.
 
 
-To run your app in the development mode:
 
+To install the depencies
 ```
 npm install
 ```
 
+To create an empty database in SQLite
+```
+npm run prisma:migrate
+```
+
+To run your app in the development mode:
 ```
 blitz dev
+```
+  or if you use nvm 
+```
+npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
