@@ -47,7 +47,7 @@ export const PeopleList = () => {
         hideFooterPagination={true}
         onRowClick={({id}) => {
           const person = people.find(person => person.id === id);
-          const message = formatMessage(person!, person?.country!);
+          const message = formatMessage(i18n.language, t ,person!, person?.country!);
           showToast(ToastType.INFO, message);
         }}/>
     </div>

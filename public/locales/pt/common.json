@@ -7,5 +7,6 @@
   "people.name.label":"Nome",
   "people.surname.label":"Apelido",
   "people.country.label":"País",
-  "people.birthday.label":"Aniversário"
+  "people.birthday.label":"Aniversário",
+  "people.form.save.message": "Olá {{name}} de {{country}}. no dia {{day}} de {{month}} teras {{age}} anos!"
 }

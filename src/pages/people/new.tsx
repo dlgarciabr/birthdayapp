@@ -63,7 +63,7 @@ const NewPersonPage = () => {
               try {
                 const createdPerson = await createPersonMutation(values);
                 const country = countries.find(country => country.id === parseInt(values.countryId));
-                const message = formatMessage(createdPerson, country!);
+                const message = formatMessage(i18n.language, t, createdPerson, country!);
                 showToast(ToastType.INFO, message);
                 await router.push(Routes.PeoplePage());
               } catch (error: any) {
