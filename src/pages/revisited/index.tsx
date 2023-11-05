@@ -1,9 +1,10 @@
-import PeoplePage from "../people";
+import { useRouter } from "next/router";
+import { Routes } from "@blitzjs/next";
 
 const RevisitedPage = () => {
-  return (
-    <PeoplePage/>
-  );
+  const router = useRouter();
+  void router.push(Routes.PeoplePage());
+  return '';
 };
 
 export default RevisitedPage;

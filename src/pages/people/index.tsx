@@ -1,22 +1,20 @@
-import { Suspense, useState } from "react";
+import { Suspense, useCallback } from "react";
 import { Routes } from "@blitzjs/next";
 import Head from "next/head";
-import Link from "next/link";
-import { invoke, usePaginatedQuery } from "@blitzjs/rpc";
+import { usePaginatedQuery } from "@blitzjs/rpc";
 import { useRouter } from "next/router";
 import Layout from "src/core/layouts/Layout";
 import getPeople from "src/people/queries/getPeople";
 import { DataGrid, GridColDef, GridRowsProp } from '@mui/x-data-grid';
-import { Country } from "@prisma/client";
-import getCountries from "src/countries/queries/getCountries";
 import { ToastType, showToast } from "src/core/components/Toast";
 import { formatMessage } from "./uitls";
 import { Button } from "@mui/material";
+import { Trans, Translation, useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const ITEMS_PER_PAGE = 100;
 
 export const PeopleList = () => {
-  const [countries, setCountries] = useState<Country[]>([]);
   const router = useRouter();
   const page = Number(router.query.page) || 0;
   const [{ people }] = usePaginatedQuery(getPeople, {
@@ -24,13 +22,6 @@ export const PeopleList = () => {
     skip: ITEMS_PER_PAGE * page,
     take: ITEMS_PER_PAGE,
   });
-
-  const loadCountries = async () => {
-    const { countries } = await invoke(getCountries, {
-      orderBy: { name: 'asc' }
-    });
-    setCountries(countries);
-  };
 
   const columns: GridColDef[] = [
     { field: 'name', headerName: 'Name', width: 150 },
@@ -62,14 +53,30 @@ export const PeopleList = () => {
 
 const PeoplePage = () => {
   const router = useRouter();
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = useCallback(async () => {
+    switch(i18n.language){
+      case 'en':
+        await router.push(Routes.PeoplePage(), undefined, {locale: 'pt'});
+        break;
+      case 'pt':
+        await router.push(Routes.PeoplePage(), undefined, {locale: 'en'});
+        break;
+     }
+  },[i18n, router])
+
   return (
     <Layout>
       <Head>
         <title>People</title>
       </Head>
-      <h1>People list</h1>
+        <h1>{t('people.list.title')}</h1>
         <Button variant='contained' onClick={() => router.push(Routes.NewPersonPage())}>
-          Create person
+          {t('people.list.create.label')}
+        </Button>
+        <Button variant='outlined' onClick={() => changeLanguage()}>
+          {t('change.language.next')}
         </Button>
         <Suspense fallback={<div>Loading...</div>}>
           <PeopleList />
@@ -79,3 +86,15 @@ const PeoplePage = () => {
 };
 
 export default PeoplePage;
+
+export async function getStaticProps(context) {
+  // extract the locale identifier from the URL
+  const { locale } = context
+
+  return {
+    props: {
+      // pass the translation props to the page component
+      ...(await serverSideTranslations(locale)),
+    },
+  }
+}

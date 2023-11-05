@@ -5,7 +5,9 @@ import { useCurrentUser } from "src/users/hooks/useCurrentUser"
 import logout from "src/auth/mutations/logout"
 import { useMutation } from "@blitzjs/rpc"
 import { Routes, BlitzPage } from "@blitzjs/next"
-import styles from "src/styles/Home.module.css"
+import styles from "src/styles/Home.module.css";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from "next-i18next";
 
 /*
  * This file is just for a pleasant getting started page for your new app.
@@ -46,6 +48,7 @@ const UserInfo = () => {
 }
 
 const Home: BlitzPage = () => {
+  const { t, i18n } = useTranslation();
   return (
     <Layout title="Home">
       <div className={styles.globe} />
@@ -67,9 +70,8 @@ const Home: BlitzPage = () => {
                   <div className={styles.code}>
                     <pre>
                       <code>
-                        Go to{" "}
-                        <Link href="/revisited" className={styles.textLink}>
-                          /revisited
+                        <Link href="/revisited" className={styles.textLink} locale='en'>
+                          {t('people.list.title')}   /revisited
                         </Link>
                       </code>
                     </pre>
@@ -144,4 +146,16 @@ const Home: BlitzPage = () => {
   )
 }
 
-export default Home
+export default Home;
+
+export async function getStaticProps(context) {
+  // extract the locale identifier from the URL
+  const { locale } = context
+
+  return {
+    props: {
+      // pass the translation props to the page component
+      ...(await serverSideTranslations(locale)),
+    },
+  }
+}
