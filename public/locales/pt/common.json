@@ -2,5 +2,10 @@
   "people.list.title":"Lista de pessoas",
   "change.language.next":"English",
   "people.list.create.label": "Criar pessoa",
-  "people.form.label":"Cadastrar nova pessoa"
+  "people.form.label":"Cadastrar nova pessoa",
+  "people.form.save.label":"Gravar",
+  "people.name.label":"Nome",
+  "people.surname.label":"Apelido",
+  "people.country.label":"País",
+  "people.birthday.label":"Aniversário"
 }

@@ -2,5 +2,10 @@
   "people.list.title":"People list",
   "change.language.next":"Português",
   "people.list.create.label": "Create person",
-  "people.form.label":"Create New Person"
+  "people.form.label":"Create New Person",
+  "people.form.save.label":"Save",
+  "people.name.label":"Name",
+  "people.surname.label":"Surname",
+  "people.country.label":"Country",
+  "people.birthday.label":"Birthday"
 }

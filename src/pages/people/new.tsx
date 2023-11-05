@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import getCountries from "src/countries/queries/getCountries";
 import { ToastType, showToast } from "src/core/components/Toast";
 
-import { formatMessage } from "./uitls";
+import { changeLanguage, formatMessage } from "./uitls";
 import { CreatePersonValidation } from "src/people/schemas";
 import { Button, Grid } from "@mui/material";
 import { useTranslation } from "next-i18next";
@@ -30,15 +30,27 @@ const NewPersonPage = () => {
 
   useEffect(() => void loadCountries(), []);
   
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   return (
-    <Layout title={"Create New Person"}>
+    <Layout title={t('people.form.label')}>
       <h1>{t('people.form.label')}</h1>
+      <Grid container justifyContent="space-between">
+        <Grid item>
+          <Button variant='contained' onClick={() => router.push(Routes.NewPersonPage())}>
+            {t('people.list.create.label')}
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button variant='text' onClick={() => changeLanguage(i18n.language, router, Routes.NewPersonPage())}>
+            {t('change.language.next')}
+          </Button>
+        </Grid>
+      </Grid>
       <Grid container justifyContent='center' spacing={2}>
         <Grid item xs={7}>
           <PersonForm
-            submitText="Create Person"
+            submitText={t('people.form.save.label')}
             schema={CreatePersonValidation}
             initialValues={{
               name: '',
@@ -65,7 +77,7 @@ const NewPersonPage = () => {
         </Grid>
         <Grid item container xs={7} justifyContent='center'>
           <Button variant="outlined" onClick={() => router.push(Routes.PeoplePage())}>
-            People list
+            {t('people.list.title')}
           </Button>
         </Grid>
       </Grid>
