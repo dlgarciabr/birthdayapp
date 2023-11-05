@@ -12,6 +12,7 @@ import { ToastType, showToast } from "src/core/components/Toast";
 
 import { formatMessage } from "./uitls";
 import { CreatePersonValidation } from "src/people/schemas";
+import { Button, Grid } from "@mui/material";
 
 const NewPersonPage = () => {
   const router = useRouter();
@@ -30,36 +31,40 @@ const NewPersonPage = () => {
   return (
     <Layout title={"Create New Person"}>
       <h1>Create New Person</h1>
-
-      <PersonForm
-        submitText="Create Person"
-        schema={CreatePersonValidation}
-        initialValues={{
-          name: '',
-          surname: '',
-          countryId: '-1',
-          birthdate: ''
-        }}
-        countries={countries}
-        onSubmit={async (values) => {
-          try {
-            const createdPerson = await createPersonMutation(values);
-            const country = countries.find(country => country.id === parseInt(values.countryId));
-            const message = formatMessage(createdPerson, country!);
-            showToast(ToastType.INFO, message);
-            await router.push(Routes.PeoplePage());
-          } catch (error: any) {
-            console.error(error);
-            return {
-              [FORM_ERROR]: error.toString(),
-            };
-          }
-        }}
-      />
-
-      <p>
-        <Link href={Routes.PeoplePage()}>Revisited people</Link>
-      </p>
+      <Grid container justifyContent='center' spacing={2}>
+        <Grid item xs={7}>
+          <PersonForm
+            submitText="Create Person"
+            schema={CreatePersonValidation}
+            initialValues={{
+              name: '',
+              surname: '',
+              countryId: '',
+              birthdate: ''
+            }}
+            countries={countries}
+            onSubmit={async (values) => {
+              try {
+                const createdPerson = await createPersonMutation(values);
+                const country = countries.find(country => country.id === parseInt(values.countryId));
+                const message = formatMessage(createdPerson, country!);
+                showToast(ToastType.INFO, message);
+                await router.push(Routes.PeoplePage());
+              } catch (error: any) {
+                console.error(error);
+                return {
+                  [FORM_ERROR]: error.toString(),
+                };
+              }
+            }}
+          />
+        </Grid>
+        <Grid item container xs={7} justifyContent='center'>
+          <Button variant="outlined" onClick={() => router.push(Routes.PeoplePage())}>
+            People list
+          </Button>
+        </Grid>
+      </Grid>
     </Layout>
   );
 };

@@ -23,3 +23,8 @@ i {
 * {
   box-sizing: border-box;
 }
+
+div.form-error-message {
+  height: 25px;
+  color: red;
+}

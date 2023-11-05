@@ -11,6 +11,7 @@ import { Country } from "@prisma/client";
 import getCountries from "src/countries/queries/getCountries";
 import { ToastType, showToast } from "src/core/components/Toast";
 import { formatMessage } from "./uitls";
+import { Button } from "@mui/material";
 
 const ITEMS_PER_PAGE = 100;
 
@@ -45,10 +46,11 @@ export const PeopleList = () => {
   }));
 
   return (
-    <div style={{ height: 300, width: '100%' }}>
+    <div style={{ height: 600, width: '100%' }}>
       <DataGrid 
         rows={rows} 
         columns={columns} 
+        hideFooterPagination={true}
         onRowClick={({id}) => {
           const person = people.find(person => person.id === id);
           const message = formatMessage(person!, person?.country!);
@@ -65,19 +67,13 @@ const PeoplePage = () => {
       <Head>
         <title>People</title>
       </Head>
-
-      <div>
-        <p>
-          <Link href={Routes.NewPersonPage()}>Create Person</Link>
-        </p>
-        <button type='button' onClick={() => router.push(Routes.NewPersonPage())}>
+      <h1>People list</h1>
+        <Button variant='contained' onClick={() => router.push(Routes.NewPersonPage())}>
           Create person
-        </button>
-
+        </Button>
         <Suspense fallback={<div>Loading...</div>}>
           <PeopleList />
         </Suspense>
-      </div>
     </Layout>
   );
 };

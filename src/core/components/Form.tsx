@@ -3,6 +3,7 @@ import { Formik, FormikProps } from 'formik';
 import { validateZodSchema } from 'blitz';
 import { z } from 'zod';
 import { LoadingButton } from '@mui/lab';
+import { Grid } from '@mui/material';
 
 export interface FormProps<S extends z.ZodType<any, any>>
   extends Omit<PropsWithoutRef<JSX.IntrinsicElements['form']>, 'onSubmit'> {
@@ -56,16 +57,19 @@ export function Form<S extends z.ZodType<any, any>>({
               {formError}
             </div>
           )}
+          <Grid container justifyContent='center'>
+            <Grid item>
+              {submitText && (
+                <LoadingButton
+                  loading={isSubmitting}
+                  variant='contained'
+                  type='submit'>
+                  {submitText}
+                </LoadingButton>
+              )}
+            </Grid>
+          </Grid>
 
-          {submitText && (
-            <LoadingButton
-              loading={isSubmitting}
-              variant='contained'
-              fullWidth
-              type='submit'>
-              {submitText}
-            </LoadingButton>
-          )}
           {/* 
           <style global jsx>{`
             .form > * + * {

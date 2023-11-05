@@ -15,23 +15,26 @@ export function PersonForm<S extends z.ZodType<any, any>>(props: FormProps<S> & 
         name='name'
         label='Name'
         placeholder='Name'
+        fullWidth
       />
       <LabeledTextField
         name='surname'
         label='Surname'
         placeholder='Surname'
+        fullWidth
       />
       <LabeledTextField
         name='birthdate'
         label='Birthdate'
         placeholder='Birthdate'
         type="date"
+        fullWidth
       />
       <LabeledSelect 
         name="countryId" 
-        label="country" 
-        placeholder="Choose one" 
-        items={selectCountries}/>
+        label="Country" 
+        items={selectCountries}
+        fullWidth/>
     </Form>
   );
 }

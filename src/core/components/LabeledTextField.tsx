@@ -17,7 +17,7 @@ export interface LabeledTextFieldProps extends PropsWithoutRef<JSX.IntrinsicElem
 
 export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldProps>(
   ({ name, label, rows, outerProps, helperText, counter = false, type, ...props }, ref) => {
-    const [input, _meta, helper] = useField(name);
+    const [input, meta, helper] = useField(name);
     const { isSubmitting } = useFormikContext();
 
     return (
@@ -28,6 +28,14 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
             disabled={isSubmitting}
             ref={ref}
             value={null}
+            slotProps={
+              { 
+                textField: { 
+                  fullWidth: props.fullWidth,
+                  error: !!meta.error
+                }
+              }
+            }
             onChange={
               async (value:Date) => {
                 if(value){
@@ -49,6 +57,7 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
             size='medium'
             disabled={isSubmitting}
             ref={ref}
+            error={!!meta.error}
             helperText={
               <Box component='span' sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span>{helperText}</span>
@@ -58,13 +67,11 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
           />
         }        
 
-        <ErrorMessage name={name}>
-          {(msg) => (
-            <div role='alert' style={{ color: 'red' }}>
-              {msg}
-            </div>
-          )}
-        </ErrorMessage>
+        <div role='alert' className='form-error-message'>
+          <ErrorMessage name={name}>
+            {(msg) => (msg)}
+          </ErrorMessage>
+        </div>
 
         <style jsx>{`
           label {
