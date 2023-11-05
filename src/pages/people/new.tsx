@@ -3,11 +3,15 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { invoke, useMutation } from '@blitzjs/rpc';
 import Layout from "src/core/layouts/Layout";
-import createPerson, { CreatePerson } from "src/people/mutations/createPerson";
+import createPerson from "src/people/mutations/createPerson";
 import { PersonForm, FORM_ERROR } from "src/people/components/PersonForm";
 import { Country } from "@prisma/client";
 import { useEffect, useState } from "react";
 import getCountries from "src/countries/queries/getCountries";
+import { ToastType, showToast } from "src/core/components/Toast";
+
+import { formatMessage } from "./uitls";
+import { CreatePersonValidation } from "src/people/schemas";
 
 const NewPersonPage = () => {
   const router = useRouter();
@@ -29,19 +33,23 @@ const NewPersonPage = () => {
 
       <PersonForm
         submitText="Create Person"
-        schema={CreatePerson}
+        schema={CreatePersonValidation}
         initialValues={{
           name: '',
           surname: '',
           countryId: '-1',
-          birthdate: new Date()
+          birthdate: ''
         }}
         countries={countries}
         onSubmit={async (values) => {
           try {
             await createPersonMutation(values);
+            const country = countries.find(country => country.id === parseInt(values.countryId));
+            const message = formatMessage(values, country!);
+            showToast(ToastType.INFO, message);
             await router.push(Routes.PeoplePage());
           } catch (error: any) {
+            console.error(error);
             return {
               [FORM_ERROR]: error.toString(),
             };
@@ -50,7 +58,7 @@ const NewPersonPage = () => {
       />
 
       <p>
-        <Link href={Routes.PeoplePage()}>People</Link>
+        <Link href={Routes.PeoplePage()}>Revisited people</Link>
       </p>
     </Layout>
   );

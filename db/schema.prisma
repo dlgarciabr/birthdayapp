@@ -65,12 +65,12 @@ model Country {
 }
 
 model Person {
-  id        Int      @id @default(autoincrement())
-  name      String   @unique
-  surname   String   @unique
-  birthdate DateTime
-  country   Country  @relation(fields: [countryId], references: [id])
-  countryId Int
+  id           Int      @id @default(autoincrement())
+  name         String   @unique
+  surname      String   @unique
+  birthdate    DateTime
+  country      Country  @relation(fields: [countryId], references: [id])
+  countryId    Int
 }
 
 // NOTE: It's highly recommended to use an enum for the token type

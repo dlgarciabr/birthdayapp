@@ -1,19 +1,30 @@
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import { Routes } from "@blitzjs/next";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useQuery, useMutation } from "@blitzjs/rpc";
+import { useQuery, useMutation, invoke } from "@blitzjs/rpc";
 import { useParam } from "@blitzjs/next";
 
 import Layout from "src/core/layouts/Layout";
 import getPerson from "src/people/queries/getPerson";
 import updatePerson from "src/people/mutations/updatePerson";
 import { PersonForm, FORM_ERROR } from "src/people/components/PersonForm";
+import { Country } from "@prisma/client";
+import getCountries from "src/countries/queries/getCountries";
 
 export const EditPerson = () => {
   const router = useRouter();
   const personId = useParam("personId", "number");
+  const [countries, setCountries] = useState<Country[]>([]);
+
+  const loadCountries = async () => {
+    const { countries } = await invoke(getCountries, {
+      orderBy: { name: 'asc' }
+    });
+    setCountries(countries);
+  };
+
   const [person, { setQueryData }] = useQuery(
     getPerson,
     { id: personId },
@@ -40,7 +51,13 @@ export const EditPerson = () => {
           //  - Tip: extract mutation's schema into a shared `validations.ts` file and
           //         then import and use it here
           // schema={UpdatePerson}
-          initialValues={person}
+          initialValues={{
+            name: '',
+            surname: '',
+            countryId: '-1',
+            birthdate: new Date()
+          }}
+          countries={countries}
           onSubmit={async (values) => {
             try {
               const updated = await updatePersonMutation({

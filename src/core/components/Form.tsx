@@ -2,6 +2,7 @@ import { useState, ReactNode, PropsWithoutRef } from 'react';
 import { Formik, FormikProps } from 'formik';
 import { validateZodSchema } from 'blitz';
 import { z } from 'zod';
+import { LoadingButton } from '@mui/lab';
 
 export interface FormProps<S extends z.ZodType<any, any>>
   extends Omit<PropsWithoutRef<JSX.IntrinsicElements['form']>, 'onSubmit'> {
@@ -49,7 +50,7 @@ export function Form<S extends z.ZodType<any, any>>({
         <form onSubmit={handleSubmit} className='form' {...props}>
           {/* Form fields supplied as children are rendered here */}
           {children}
-
+          
           {formError && (
             <div role='alert' style={{ color: 'red' }}>
               {formError}
@@ -57,9 +58,13 @@ export function Form<S extends z.ZodType<any, any>>({
           )}
 
           {submitText && (
-            <button type='submit' disabled={isSubmitting}>
+            <LoadingButton
+              loading={isSubmitting}
+              variant='contained'
+              fullWidth
+              type='submit'>
               {submitText}
-            </button>
+            </LoadingButton>
           )}
           {/* 
           <style global jsx>{`

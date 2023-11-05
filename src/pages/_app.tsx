@@ -6,10 +6,15 @@ import "src/styles/globals.css"
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import us from 'date-fns/locale/en-US';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import LoginForm from "src/auth/components/LoginForm"
+import { ToastType, showToast } from "src/core/components/Toast"
 
-function RootErrorFallback({ error }: ErrorFallbackProps) {
+function RootErrorFallback({ error,resetErrorBoundary }: ErrorFallbackProps) {
   if (error instanceof AuthenticationError) {
-    return <div>Error: You are not authenticated</div>
+    showToast(ToastType.ERROR, 'Error: You are not authenticated');
+    return <LoginForm onSuccess={resetErrorBoundary} />
   } else if (error instanceof AuthorizationError) {
     return (
       <ErrorComponent
@@ -34,6 +39,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ErrorBoundary FallbackComponent={RootErrorFallback}>
         {getLayout(<Component {...pageProps} />)}
       </ErrorBoundary>
+      <ToastContainer />
     </LocalizationProvider>
   )
 }

@@ -19,9 +19,6 @@ export const PeopleList = () => {
     take: ITEMS_PER_PAGE,
   });
 
-  const goToPreviousPage = () => router.push({ query: { page: page - 1 } });
-  const goToNextPage = () => router.push({ query: { page: page + 1 } });
-
   const columns: GridColDef[] = [
     { field: 'name', headerName: 'Name', width: 150 },
     { field: 'country', headerName: 'Country', width: 150 },
@@ -43,6 +40,7 @@ export const PeopleList = () => {
 };
 
 const PeoplePage = () => {
+  const router = useRouter();
   return (
     <Layout>
       <Head>
@@ -53,6 +51,9 @@ const PeoplePage = () => {
         <p>
           <Link href={Routes.NewPersonPage()}>Create Person</Link>
         </p>
+        <button type='button' onClick={() => router.push(Routes.NewPersonPage())}>
+          Create person
+        </button>
 
         <Suspense fallback={<div>Loading...</div>}>
           <PeopleList />

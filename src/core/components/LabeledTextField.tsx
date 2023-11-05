@@ -19,6 +19,7 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
   ({ name, label, rows, outerProps, helperText, counter = false, type, ...props }, ref) => {
     const [input, _meta, helper] = useField(name);
     const { isSubmitting } = useFormikContext();
+
     return (
       <div {...outerProps}>
         {type === 'date' ? 
@@ -26,9 +27,12 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
             label={label}
             disabled={isSubmitting}
             ref={ref}
+            value={null}
             onChange={
-              async value => {
-                await helper.setValue(value);
+              async (value:Date) => {
+                if(value){
+                  await helper.setValue(value.toISOString());
+                }
               }
             }
           /> : 
@@ -50,9 +54,7 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
               </Box>
             }
           />
-        }
-
-        
+        }        
 
         <ErrorMessage name={name}>
           {(msg) => (

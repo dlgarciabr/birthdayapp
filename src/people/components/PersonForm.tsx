@@ -1,6 +1,6 @@
 import { Country } from "@prisma/client";
 import { Form, FormProps } from "src/core/components/Form";
-import LabeledSelect from "src/core/components/LabeledSelect";
+import {LabeledSelect} from "src/core/components/LabeledSelect";
 import { LabeledTextField } from "src/core/components/LabeledTextField";
 import { z } from "zod";
 export { FORM_ERROR } from "src/core/components/Form";

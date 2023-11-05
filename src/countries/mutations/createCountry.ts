@@ -4,6 +4,7 @@ import { z } from "zod";
 
 const CreateCountry = z.object({
   name: z.string(),
+  tld: z.string()
 });
 
 export default resolver.pipe(

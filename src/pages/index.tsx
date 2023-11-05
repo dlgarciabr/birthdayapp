@@ -62,19 +62,14 @@ const Home: BlitzPage = () => {
             </div>
 
             <div className={styles.body}>
-              {/* Instructions */}
               <div className={styles.instructions}>
-                <p>
-                  <strong>Add a new model by running the following in your terminal:</strong>
-                </p>
-
                 <div>
                   <div className={styles.code}>
                     <pre>
                       <code>
                         Go to{" "}
-                        <Link href="/people" className={styles.textLink}>
-                          /people
+                        <Link href="/revisited" className={styles.textLink}>
+                          /revisited
                         </Link>
                       </code>
                     </pre>
