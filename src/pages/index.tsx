@@ -15,7 +15,7 @@ import { useTranslation } from "next-i18next";
  */
 
 const UserInfo = () => {
-  const currentUser = useCurrentUser()
+  const currentUser = useCurrentUser();
   const [logoutMutation] = useMutation(logout)
   if (currentUser) {
     return (
@@ -48,7 +48,7 @@ const UserInfo = () => {
 }
 
 const Home: BlitzPage = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   return (
     <Layout title="Home">
       <div className={styles.globe} />
@@ -63,7 +63,6 @@ const Home: BlitzPage = () => {
                 </Suspense>
               </div> 
             </div>
-
             <div className={styles.body}>
               <div className={styles.instructions}>
                 <div>
@@ -78,54 +77,6 @@ const Home: BlitzPage = () => {
                   </div>
                 </div>
               </div>
-              {/* Links */}
-              {/* <div className={styles.linkGrid}>
-                <a
-                  href="https://blitzjs.com/docs/getting-started?utm_source=blitz-new&utm_medium=app-template&utm_campaign=blitz-new"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.card}
-                >
-                  Blitz Docs
-                  <span className={styles.arrowIcon} />
-                </a>
-                <a
-                  href="https://nextjs.org/docs/getting-started"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.card}
-                >
-                  Next.js Docs
-                  <span className={styles.arrowIcon} />
-                </a>
-                <a
-                  href="https://github.com/blitz-js/blitz"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.card}
-                >
-                  Github Repo
-                  <span className={styles.arrowIcon} />
-                </a>
-                <a
-                  href="https://twitter.com/blitz_js"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.card}
-                >
-                  Blitz Twitter
-                  <span className={styles.arrowIcon} />
-                </a>
-                <a
-                  href="https://discord.blitzjs.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.card}
-                >
-                  Discord Community
-                  <span className={styles.arrowIcon} />
-                </a>
-              </div> */}
             </div>
           </div>
         </main>
