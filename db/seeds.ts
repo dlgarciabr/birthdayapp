@@ -7,6 +7,8 @@ import db from "./index"
  * to easily generate realistic data.
  */
 const seed = async () => {
+  await db.person.deleteMany();
+  await db.country.deleteMany();
   await db.country.create({ data: { name: 'Portugal', tld: '.pt'}});
   await db.country.create({ data: { name: 'Brazil', tld: '.br'}});
 }

@@ -1,23 +1,35 @@
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import { Routes } from "@blitzjs/next";
 import Head from "next/head";
 import Link from "next/link";
-import { usePaginatedQuery } from "@blitzjs/rpc";
+import { invoke, usePaginatedQuery } from "@blitzjs/rpc";
 import { useRouter } from "next/router";
 import Layout from "src/core/layouts/Layout";
 import getPeople from "src/people/queries/getPeople";
 import { DataGrid, GridColDef, GridRowsProp } from '@mui/x-data-grid';
+import { Country } from "@prisma/client";
+import getCountries from "src/countries/queries/getCountries";
+import { ToastType, showToast } from "src/core/components/Toast";
+import { formatMessage } from "./uitls";
 
 const ITEMS_PER_PAGE = 100;
 
 export const PeopleList = () => {
+  const [countries, setCountries] = useState<Country[]>([]);
   const router = useRouter();
   const page = Number(router.query.page) || 0;
-  const [{ people, hasMore }] = usePaginatedQuery(getPeople, {
+  const [{ people }] = usePaginatedQuery(getPeople, {
     orderBy: { id: "asc" },
     skip: ITEMS_PER_PAGE * page,
     take: ITEMS_PER_PAGE,
   });
+
+  const loadCountries = async () => {
+    const { countries } = await invoke(getCountries, {
+      orderBy: { name: 'asc' }
+    });
+    setCountries(countries);
+  };
 
   const columns: GridColDef[] = [
     { field: 'name', headerName: 'Name', width: 150 },
@@ -34,7 +46,14 @@ export const PeopleList = () => {
 
   return (
     <div style={{ height: 300, width: '100%' }}>
-      <DataGrid rows={rows} columns={columns} />
+      <DataGrid 
+        rows={rows} 
+        columns={columns} 
+        onRowClick={({id}) => {
+          const person = people.find(person => person.id === id);
+          const message = formatMessage(person!, person?.country!);
+          showToast(ToastType.INFO, message);
+        }}/>
     </div>
   );
 };

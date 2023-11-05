@@ -1,8 +1,8 @@
-import { Country } from "@prisma/client";
+import { Country, Person } from "@prisma/client";
 import { format, getDate, getDayOfYear, getYear } from "date-fns";
 import { enUS } from 'date-fns/locale';
 
-export const formatMessage = (values: any, country: Country): string =>{
+export const formatMessage = (values: Person, country: Country): string =>{
   const birthDate = new Date(values.birthdate)
   const day = getDate(birthDate);
   const month = format(birthDate, 'LLLL', { locale: enUS });

@@ -31,7 +31,9 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
             onChange={
               async (value:Date) => {
                 if(value){
-                  await helper.setValue(value.toISOString());
+                  try {
+                    await helper.setValue(value.toISOString());
+                  } catch (error) {/*do nothing, it will be validated by formik and zod*/}
                 }
               }
             }

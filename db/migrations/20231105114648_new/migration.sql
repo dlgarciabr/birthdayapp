@@ -17,7 +17,5 @@ CREATE TABLE "new_Person" (
 INSERT INTO "new_Person" ("birthdate", "countryId", "id", "name", "surname") SELECT "birthdate", "countryId", "id", "name", "surname" FROM "Person";
 DROP TABLE "Person";
 ALTER TABLE "new_Person" RENAME TO "Person";
-CREATE UNIQUE INDEX "Person_name_key" ON "Person"("name");
-CREATE UNIQUE INDEX "Person_surname_key" ON "Person"("surname");
 PRAGMA foreign_key_check;
 PRAGMA foreign_keys=ON;

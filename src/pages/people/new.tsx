@@ -43,9 +43,9 @@ const NewPersonPage = () => {
         countries={countries}
         onSubmit={async (values) => {
           try {
-            await createPersonMutation(values);
+            const createdPerson = await createPersonMutation(values);
             const country = countries.find(country => country.id === parseInt(values.countryId));
-            const message = formatMessage(values, country!);
+            const message = formatMessage(createdPerson, country!);
             showToast(ToastType.INFO, message);
             await router.push(Routes.PeoplePage());
           } catch (error: any) {
