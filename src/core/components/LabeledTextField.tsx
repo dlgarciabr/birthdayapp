@@ -2,6 +2,7 @@ import { forwardRef, PropsWithoutRef } from 'react';
 import { useField, useFormikContext, ErrorMessage } from 'formik';
 import { Box, TextField } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { useTranslation } from 'next-i18next';
 
 export interface LabeledTextFieldProps extends PropsWithoutRef<JSX.IntrinsicElements['input']> {
   name: string;
@@ -19,6 +20,7 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
   ({ name, label, rows, outerProps, helperText, counter = false, type, ...props }, ref) => {
     const [input, meta, helper] = useField(name);
     const { isSubmitting } = useFormikContext();
+    const { i18n } = useTranslation();
 
     return (
       <div {...outerProps}>
@@ -28,6 +30,7 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
             disabled={isSubmitting}
             ref={ref}
             value={null}
+            format={i18n.language === 'en' ? 'MM/dd/yyyy' : 'dd/MM/yyyy'}
             slotProps={
               { 
                 textField: { 
