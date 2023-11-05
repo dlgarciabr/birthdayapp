@@ -17,7 +17,7 @@ export const LabeledSelect = forwardRef<HTMLSelectElement, LabeledSelectProps>(
     const labelId = `select-label-${name}`;
     return (
       <div {...outerProps}>
-        <FormControl fullWidth>
+        <FormControl fullWidth error={!!meta.error}>
           <InputLabel id={labelId} >
             {label}
           </InputLabel>
@@ -37,7 +37,6 @@ export const LabeledSelect = forwardRef<HTMLSelectElement, LabeledSelectProps>(
             ref={ref}
             fullWidth={props.fullWidth}
             id="demo-simple-select"
-            error={!!meta.error}
           >
             {
               items.map((item) => (
